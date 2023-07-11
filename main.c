@@ -109,12 +109,6 @@ void bubbleSort() {
 
 // For adding word to linked list, as required by parse function
 void addWord(int length, char letters[5]) {
-  // Check if linked list has reached its full capacity
-  if (wordCount >= MAX) {
-    printf("Maximum word count reached. Unable to add more words.\n");
-    return;
-  }
-  
   // Check if word has already been added to linked list
   for (int i = 0; i < wordCount; i++) {
     if (strcmp(letters, wordPool[i].letters) == 0 && length == wordPool[i].length) {
@@ -141,9 +135,6 @@ void addWord(int length, char letters[5]) {
 
   // Increase wordCount to indicate number of entries
   wordCount++;
-
-  // Sort list alphabetically
-  bubbleSort();
 }
 
 // a) Enter new sentence
@@ -165,6 +156,12 @@ void parse(char sentence[100]) {
 
     // End the sentence when the end of the sentence or a non-alphanumeric character is reached
     if (check == true && (isalnum(sentence[i]) == 0 || sentence[i+1] == '\0')) {
+      // Check if linked list has reached its full capacity
+      if (wordCount >= MAX) {
+        printf("Maximum word count reached. Unable to add more words.\n");
+        break;
+      }
+      
       check = false;
       // End index depends on whether end of sentence is reached
       if (sentence[i+1] == '\0' && isalnum(sentence[i]) != 0) {
@@ -195,6 +192,9 @@ void parse(char sentence[100]) {
       addWord(length, letters);
     }
   }
+  
+  // Sort list alphabetically
+  bubbleSort();
 }
 
 // b) Search for word
